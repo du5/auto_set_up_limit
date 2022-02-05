@@ -14,9 +14,8 @@ type List struct {
 	Torrents map[string]Torrents
 }
 type Torrents struct {
-	Infohash_V1 string
-	Up_Limit    int64
-	Tracker     string
+	Up_Limit int64
+	Tracker  string
 }
 
 func Get_List(host string) map[string]Torrents {
