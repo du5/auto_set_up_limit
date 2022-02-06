@@ -5,13 +5,6 @@ import (
 	"time"
 )
 
-var (
-	env         = Get_ENV()
-	api_list    = "/api/v2/sync/maindata"
-	api_limit   = "/api/v2/torrents/setUploadLimit"
-	api_setting = "/api/v2/app/setPreferences"
-)
-
 func main() {
 	Log_ENV()
 	tc5s := time.NewTicker(5 * time.Second)

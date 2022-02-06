@@ -10,6 +10,8 @@ import (
 	"strings"
 )
 
+var env = Get_ENV()
+
 type ENV struct {
 	Host         []string
 	Tracker      map[string]int64

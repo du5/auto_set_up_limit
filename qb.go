@@ -10,6 +10,12 @@ import (
 	"strings"
 )
 
+var (
+	api_list    = "/api/v2/sync/maindata"
+	api_limit   = "/api/v2/torrents/setUploadLimit"
+	api_setting = "/api/v2/app/setPreferences"
+)
+
 type List struct {
 	Torrents map[string]Torrents
 }
@@ -38,7 +44,10 @@ func Set_Limit(host, hash string, limit int64) error {
 }
 
 func Update_TK(host string) {
-	resp, err := http.Get("https://raw.githubusercontent.com/ngosang/trackerslist/master/trackers_all.txt")
+	if env.TrackersList == "" {
+		return
+	}
+	resp, err := http.Get(env.TrackersList)
 	if err != nil {
 		log.Println(err.Error())
 		return
@@ -46,11 +55,9 @@ func Update_TK(host string) {
 	defer resp.Body.Close()
 	body, _ := ioutil.ReadAll(resp.Body)
 	jsondata := fmt.Sprintf(`{"add_trackers_enabled": true, "add_trackers": "%s"}`, url.QueryEscape(string(body)))
-
 	data := fmt.Sprintf("json=%s", jsondata)
 	resp, err = http.Post(host+api_setting, "application/x-www-form-urlencoded; charset=UTF-8", strings.NewReader(data))
 	if resp.StatusCode == 200 && err == nil {
 		log.Printf("[%s] trackers 更新成功!", host)
 	}
-
 }
