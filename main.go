@@ -14,7 +14,7 @@ func main() {
 		for _, host := range env.Host {
 			for k, v := range Get_List(host) {
 				up_limit, hostname := Get_Limit(v.Tracker)
-				if v.Up_Limit <= 0 || v.Up_Limit > up_limit {
+				if up_limit > 0 && v.Up_Limit != up_limit {
 					if err := Set_Limit(host, k, up_limit); err != nil {
 						log.Printf("[%s] 种子: %s 限速更新失败, %s", hostname, k, err.Error())
 					} else {
